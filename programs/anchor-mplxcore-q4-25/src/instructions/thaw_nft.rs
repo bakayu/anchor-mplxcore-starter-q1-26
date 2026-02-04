@@ -23,8 +23,12 @@ pub struct ThawNft<'info> {
     /// CHECK: This will also be checked by core
     pub collection: UncheckedAccount<'info>,
 
-    #[account(mut)]
     /// CHECK: checked by core
+    #[account(
+        mut,
+        constraint = asset.owner == &CORE_PROGRAM_ID,
+        constraint = !asset.data_is_empty()
+    )]
     pub asset: UncheckedAccount<'info>,
 
     #[account(
